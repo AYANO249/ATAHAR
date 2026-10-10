@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0d12">
+<title>أَثَر | لوحة المشرف</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --bg:#0b0d12;
+  --card:#141821;
+  --border:#292f3b;
+  --gold:#e7c779;
+  --text:#f4f5f7;
+  --muted:#9ca5b5;
+  --green:#4ade80;
+  --red:#fb7185;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(ellipse at top right,#25233b 0,transparent 45%),var(--bg);
+  color:var(--text);
+  font-family:Tajawal,sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{
+  padding:20px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:#0b0d12d9;
+}
+.brand{color:var(--gold);font-size:24px;font-weight:800}
+.brand small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.container{width:min(950px,92%);margin:35px auto}
+.heading{margin-bottom:24px}
+.heading h1{font-size:27px;margin:0 0 8px}
+.heading p{color:var(--muted);margin:0;line-height:1.8}
+.card{
+  background:#141821ed;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:0 15px 40px #00000018;
+}
+.login-card{max-width:430px;margin:35px auto}
+label{display:block;margin:15px 0 8px;color:#d7dbe4}
+input{
+  width:100%;padding:13px;border-radius:10px;
+  border:1px solid var(--border);background:#0d1017;
+  color:white;outline:none;
+}
+input:focus{border-color:var(--gold)}
+.btn{
+  padding:11px 16px;border:1px solid var(--border);
+  border-radius:10px;color:var(--text);background:#202532;
+  text-decoration:none;display:inline-flex;align-items:center;
+  justify-content:center;gap:6px;
+}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.6;cursor:wait}
+.primary{color:#17130a;background:var(--gold);border-color:var(--gold);font-weight:800}
+.success{color:#07180e;background:var(--green);border-color:var(--green)}
+.danger{color:white;background:#7f1d2d;border-color:#9f3041}
+.full{width:100%;margin-top:20px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.stat{padding:18px;border-radius:14px;border:1px solid var(--border);background:#141821}
+.stat span{color:var(--muted);display:block;margin-bottom:8px}
+.stat strong{font-size:26px;color:var(--gold)}
+.initiative-title{font-size:21px;margin:0 0 12px;overflow-wrap:anywhere}
+.description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:#d4d8e0;margin:15px 0}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.badge{font-size:13px;padding:6px 10px;border-radius:20px;background:#242a37;color:#d9deea}
+.date{color:var(--muted);font-size:13px;margin-top:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;border-top:1px solid var(--border);padding-top:17px}
+.message{color:var(--muted);text-align:center;padding:25px 10px;line-height:1.9}
+.error{color:#fda4af}
+.hidden{display:none!important}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+@media(max-width:600px){
+  .container{margin-top:25px}
+  .card{padding:17px}
+  .actions .btn{flex:1}
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    ✳ أَثَر
+    <small>لوحة الإدارة والمراجعة</small>
+  </div>
+  <div class="top-actions">
+    <a class="btn" href="./index.html">⌂ الموقع الرئيسي</a>
+    <button id="logoutBtn" class="btn hidden">تسجيل الخروج</button>
+  </div>
+</header>
+
+<main class="container">
+  <section id="loginSection" class="card login-card">
+    <div class="heading">
+      <h1>مرحبًا بالمشرف</h1>
+      <p>سجّل الدخول لمراجعة المبادرات وإدارة المحتوى المعتمد.</p>
+    </div>
+
+    <form id="loginForm">
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" autocomplete="username" required placeholder="البريد الإلكتروني للمشرف">
+
+      <label for="password">كلمة المرور</label>
+      <input id="password" type="password" autocomplete="current-password" required placeholder="كلمة مرور المشرف">
+
+      <button id="loginBtn" class="btn primary full" type="submit">تسجيل الدخول</button>
+    </form>
+    <div id="loginMessage" class="message" aria-live="polite"></div>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="heading">
+      <h1>مركز مراجعة المبادرات</h1>
+      <p>يمكنك مراجعة المقترحات، اعتمادها أو رفضها، وحذف المبادرات المعتمدة.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span>بانتظار المراجعة</span><strong id="pendingCount">0</strong></div>
+      <div class="stat"><span>المبادرات المعتمدة</span><strong id="approvedCount">0</strong></div>
+      <div class="stat"><span>إجمالي المبادرات</span><strong id="shownCount">0</strong></div>
+    </div>
+
+    <div class="top-actions" style="margin-bottom:18px">
+      <button id="refreshBtn" class="btn primary">↻ تحديث القائمة</button>
+    </div>
+
+    <div id="listMessage" class="message" aria-live="polite">جارٍ تحميل المبادرات...</div>
+    <div id="initiativeList"></div>
+  </section>
+</main>
+
+<footer>أَثَر — إدارة مسؤولة لمبادرات المجتمع</footer>
+
+<script>
+const SUPABASE_URL = "https://egnveiuofejuftxoohju.supabase.co";
+
+/* ضع مفتاح Publishable العام الحالي هنا */
+const SUPABASE_ANON_KEY = "sb_publishable_kaYM2E6WCd_shsg5ZLLFxw_Nb2pPY4x";
+
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const listMessage = document.getElementById("listMessage");
+const initiativeList = document.getElementById("initiativeList");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let db = null;
+let busy = false;
+
+function showMessage(el, message, isError = false) {
+  el.textContent = message;
+  el.classList.toggle("error", isError);
+}
+
+function setLoggedIn(value) {
+  loginSection.classList.toggle("hidden", value);
+  dashboard.classList.toggle("hidden", !value);
+  logoutBtn.classList.toggle("hidden", !value);
+}
+
+function formatDate(value) {
+  if (!value) return "غير محدد";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "غير محدد" : date.toLocaleString("ar");
+}
+
+async function verifyAdmin(user) {
+  const {data, error} = await db
+    .from("admins")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error("تعذّر التحقق من صلاحية المشرف. راجع سياسات RLS لجدول admins.");
+  }
+
+  if (!data) {
+    throw new Error("هذا الحساب غير مسجل ضمن المشرفين.");
+  }
+}
+
+async function loadInitiatives() {
+  initiativeList.replaceChildren();
+  showMessage(listMessage, "جارٍ تحميل المبادرات...");
+
+  const {data, error} = await db
+    .from("initiatives")
+    .select("id,title,description,category,city,contact,image_url,status,created_at")
+    .order("created_at", {ascending:false});
+
+  if (error) {
+    showMessage(listMessage, "تعذّر تحميل المبادرات: " + error.message, true);
+    return;
+  }
+
+  const items = data || [];
+  const pending = items.filter(x => x.status === "pending");
+  const approved = items.filter(x => x.status === "approved");
+
+  document.getElementById("pendingCount").textContent = pending.length;
+  document.getElementById("approvedCount").textContent = approved.length;
+  document.getElementById("shownCount").textContent = items.length;
+
+  if (!items.length) {
+    showMessage(listMessage, "لا توجد مبادرات حتى الآن.");
+    return;
+  }
+
+  showMessage(
+    listMessage,
+    pending.length ? `توجد ${pending.length} مبادرة بانتظار المراجعة.` : "لا توجد مبادرات معلقة للمراجعة."
+  );
+
+  items.forEach(item => initiativeList.appendChild(createCard(item)));
+}
+
+function createCard(item) {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const title = document.createElement("h2");
+  title.className = "initiative-title";
+  title.textContent = item.title || "مبادرة بلا عنوان";
+  card.appendChild(title);
+
+  const badges = document.createElement("div");
+  badges.className = "meta";
+
+  const category = document.createElement("span");
+  category.className = "badge";
+  category.textContent = item.category || "دون مجال";
+  badges.appendChild(category);
+
+  const statusNames = {
+    pending:"قيد المراجعة",
+    approved:"معتمدة",
+    rejected:"مرفوضة"
+  };
+
+  const status = document.createElement("span");
+  status.className = "badge";
+  status.textContent = statusNames[item.status] || item.status || "غير محددة";
+  badges.appendChild(status);
+  card.appendChild(badges);
+
+  const description = document.createElement("p");
+  description.className = "description";
+  description.textContent = item.description || "لا يوجد وصف.";
+  card.appendChild(description);
+
+  if (item.city) {
+    const city = document.createElement("p");
+    city.textContent = "المدينة: " + item.city;
+    card.appendChild(city);
+  }
+
+  if (item.contact) {
+    const contact = document.createElement("p");
+    contact.textContent = "وسيلة التواصل: " + item.contact;
+    card.appendChild(contact);
+  }
+
+  if (item.image_url) {
+    const link = document.createElement("a");
+    link.href = item.image_url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "btn";
+    link.textContent = "عرض رابط الصورة";
+    card.appendChild(link);
+  }
+
+  const date = document.createElement("div");
+  date.className = "date";
+  date.textContent = "تاريخ الإرسال: " + formatDate(item.created_at);
+  card.appendChild(date);
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  if (item.status === "pending") {
+    const approve = document.createElement("button");
+    approve.className = "btn success";
+    approve.textContent = "✓ اعتماد المبادرة";
+    approve.addEventListener("click", () => updateStatus(item.id, "approved", approve));
+
+    const reject = document.createElement("button");
+    reject.className = "btn danger";
+    reject.textContent = "✕ رفض المبادرة";
+    reject.addEventListener("click", () => {
+      if (confirm("هل تريد رفض هذه المبادرة؟")) {
+        updateStatus(item.id, "rejected", reject);
+      }
+    });
+
+    actions.append(approve, reject);
+  }
+
+  /* زر الحذف يظهر للمبادرات المعتمدة فقط */
+  if (item.status === "approved") {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "btn danger";
+    deleteBtn.textContent = "🗑️ حذف المبادرة";
+    deleteBtn.addEventListener("click", () => deleteInitiative(item, deleteBtn));
+    actions.appendChild(deleteBtn);
+  }
+
+  if (actions.children.length) card.appendChild(actions);
+  return card;
+}
+
+async function updateStatus(id, status, button) {
+  if (busy) return;
+  busy = true;
+  button.disabled = true;
+  button.textContent = "جارٍ الحفظ...";
+
+  try {
+    const {error} = await db
+      .from("initiatives")
+      .update({status})
+      .eq("id", id);
+
+    if (error) throw error;
+
+    await loadInitiatives();
+  } catch (error) {
+    alert("تعذّر تحديث المبادرة: " + error.message);
+    button.disabled = false;
+    button.textContent = status === "approved" ? "✓ اعتماد المبادرة" : "✕ رفض المبادرة";
+  } finally {
+    busy = false;
+  }
+}
+
+async function deleteInitiative(item, button) {
+  if (busy) return;
+
+  const confirmed = confirm(
+    `هل أنت متأكد من حذف المبادرة التالية نهائيًا؟\n\n"${item.title}"\n\nلن تظهر بعد الحذف في الموقع، ولا يمكن التراجع عن هذه العملية.`
+  );
+
+  if (!confirmed) return;
+
+  busy = true;
+  button.disabled = true;
+  button.textContent = "جارٍ الحذف...";
+
+  try {
+    const {data, error} = await db
+      .from("initiatives")
+      .delete()
+      .eq("id", item.id)
+      .eq("status", "approved")
+      .select("id");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      throw new Error("لم تُحذف المبادرة. تأكد من صلاحيات الحذف وسياسات RLS.");
+    }
+
+    alert("تم حذف المبادرة بنجاح.");
+    await loadInitiatives();
+  } catch (error) {
+    alert("تعذّر حذف المبادرة: " + error.message);
+    button.disabled = false;
+    button.textContent = "🗑️ حذف المبادرة";
+  } finally {
+    busy = false;
+  }
+}
+
+async function openDashboard(user) {
+  await verifyAdmin(user);
+  setLoggedIn(true);
+  await loadInitiatives();
+}
+
+async function initialize() {
+  if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes("PASTE_")) {
+    showMessage(loginMessage, "ضع مفتاح Publishable العام في الكود أولًا.", true);
+    return;
+  }
+
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const {data, error} = await db.auth.getSession();
+
+  if (error) {
+    showMessage(loginMessage, error.message, true);
+    return;
+  }
+
+  if (data.session) {
+    try {
+      await openDashboard(data.session.user);
+    } catch (error) {
+      await db.auth.signOut();
+      setLoggedIn(false);
+      showMessage(loginMessage, error.message, true);
+    }
+  }
+}
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!db) {
+    showMessage(loginMessage, "راجع رابط المشروع ومفتاح Publishable.", true);
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "جارٍ تسجيل الدخول...";
+  showMessage(loginMessage, "");
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  try {
+    const {data, error} = await db.auth.signInWithPassword({email, password});
+    if (error) throw error;
+
+    await openDashboard(data.user);
+    showMessage(loginMessage, "");
+  } catch (error) {
+    await db.auth.signOut();
+    setLoggedIn(false);
+    showMessage(loginMessage, "تعذّر تسجيل الدخول: " + error.message, true);
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "تسجيل الدخول";
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  if (db) await db.auth.signOut();
+  initiativeList.replaceChildren();
+  setLoggedIn(false);
+  showMessage(loginMessage, "تم تسجيل الخروج.");
+});
+
+document.getElementById("refreshBtn").addEventListener("click", loadInitiatives);
+
+initialize();
+</script>
+</body>
+    </html>
