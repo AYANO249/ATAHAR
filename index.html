@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071512">
+<title>أَثَر | منصة المجتمع</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --bg:#071512;
+  --panel:#0e241d;
+  --panel2:#122d24;
+  --gold:#e6bd58;
+  --green:#78d4a2;
+  --text:#f5f7f3;
+  --muted:#a9bbb2;
+  --line:#254437
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 80% 0%,#17392d,transparent 38%),var(--bg);
+  color:var(--text);
+  font-family:Tajawal,Arial,sans-serif;
+  line-height:1.7
+}
+
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+.wrap{width:min(1100px,92%);margin:auto}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#071512ed;
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #ffffff12
+}
+
+.nav{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px
+}
+
+.brand{
+  font-size:1.55rem;
+  font-weight:800;
+  color:var(--gold)
+}
+
+nav{
+  display:flex;
+  gap:20px;
+  color:#d0ddd5
+}
+
+nav a:hover{color:var(--gold)}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:10px 16px;
+  font-weight:800
+}
+
+.primary{background:var(--gold);color:#152018}
+.secondary{background:#163b2d;color:#effaf2;border:1px solid #315e46}
+.outline{background:transparent;color:#eaf3ed;border:1px solid #567664}
+.menu{display:none}
+
+.hero{padding:48px 0 28px}
+
+.hero-card{
+  min-height:370px;
+  border-radius:25px;
+  overflow:hidden;
+  border:1px solid #ffffff16;
+  display:flex;
+  align-items:center;
+  background:
+    linear-gradient(90deg,#061610f5 0%,#061610d9 44%,#06161022 100%),
+    url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=85') center/cover
+}
+
+.hero-copy{
+  padding:clamp(25px,5vw,55px);
+  max-width:680px
+}
+
+.eyebrow{color:var(--green);font-weight:800}
+
+.hero h1{
+  font-size:clamp(2.4rem,5vw,4rem);
+  line-height:1.2;
+  margin:10px 0
+}
+
+.hero h1 span{color:var(--gold)}
+.hero p{color:#d5e0d9;font-size:1.05rem}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px
+}
+
+.section{padding:32px 0}
+.heading{margin-bottom:18px}
+.heading h2{font-size:2rem;margin:0}
+.heading p{margin:3px 0;color:var(--muted)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:17px;
+  overflow:hidden
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  display:block
+}
+
+.body{padding:16px}
+
+.tag{
+  display:inline-block;
+  border-radius:20px;
+  background:#173c2c;
+  color:#8fe0b1;
+  padding:3px 10px;
+  font-size:.8rem
+}
+
+.body h3{margin:9px 0 4px}
+.body p{color:var(--muted);margin:0 0 12px}
+.meta{color:#9eb1a6;font-size:.82rem}
+
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:17px
+}
+
+.filter{
+  border:1px solid var(--line);
+  background:#0c201a;
+  color:#d9e5de;
+  padding:7px 14px;
+  border-radius:25px
+}
+
+.filter.active{background:var(--gold);color:#142019}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px
+}
+
+.formgrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px
+}
+
+.field.full{grid-column:1/-1}
+.field label{display:block;margin-bottom:5px;font-weight:700}
+
+.field input,.field textarea,.field select{
+  width:100%;
+  padding:11px;
+  border-radius:10px;
+  background:#071812;
+  border:1px solid #345544;
+  color:white
+}
+
+.field textarea{min-height:100px;resize:vertical}
+
+.notice{
+  padding:11px 13px;
+  background:#172f24;
+  color:#c8d9ce;
+  border-radius:10px;
+  font-size:.9rem;
+  margin-bottom:15px
+}
+
+.empty{
+  padding:25px;
+  text-align:center;
+  color:var(--muted)
+}
+
+footer{
+  border-top:1px solid #ffffff12;
+  padding:25px 0 35px;
+  color:var(--muted);
+  font-size:.9rem
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:30;
+  background:#000b;
+  align-items:center;
+  justify-content:center;
+  padding:16px
+}
+
+.modal.open{display:flex}
+
+.modalbox{
+  background:var(--panel);
+  border:1px solid #42634e;
+  border-radius:18px;
+  padding:22px;
+  width:min(520px,100%);
+  max-height:90vh;
+  overflow:auto
+}
+
+.modalhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.modalhead h2{margin:0}
+
+.toast{
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  z-index:50;
+  background:var(--gold);
+  color:#142019;
+  padding:10px 17px;
+  border-radius:12px;
+  font-weight:800;
+  transition:.2s;
+  max-width:90%;
+  text-align:center
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+@media(max-width:760px){
+  nav{
+    display:none;
+    position:absolute;
+    top:70px;
+    right:4%;
+    left:4%;
+    padding:15px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    flex-direction:column
+  }
+
+  nav.open{display:flex}
+  .menu{display:inline-block}
+  .grid{grid-template-columns:repeat(2,1fr)}
+
+  .hero-card{
+    min-height:430px;
+    background-image:
+      linear-gradient(180deg,#06161055,#061610f5 75%),
+      url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=85');
+    align-items:flex-end
+  }
+
+  .formgrid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+}
+
+@media(max-width:500px){
+  .grid{grid-template-columns:1fr}
+  .card img{height:200px}
+  .hero h1{font-size:2.5rem}
+  .nav{height:64px}
+  nav{top:64px}
+  .hero{padding-top:20px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#home">✳ أَثَر</a>
+
+    <nav id="nav">
+      <a href="#home">الرئيسية</a>
+      <a href="#initiatives">المبادرات المعتمدة</a>
+      <a href="#submit">اقترح مبادرة</a>
+    </nav>
+
+    <div class="row" style="margin:0">
+      <button class="btn primary" onclick="document.querySelector('#submit').scrollIntoView({behavior:'smooth'})">
+        ＋ اقترح مبادرة
+      </button>
+
+      <button class="btn outline menu" onclick="document.getElementById('nav').classList.toggle('open')">
+        ☰
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="home" class="wrap">
+
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-copy">
+        <div class="eyebrow">مجتمع أقوى يبدأ بخطوة</div>
+
+        <h1>خلّي لوجودك <span>أَثَر</span></h1>
+
+        <p>
+          منصة تجمع المبادرات النافعة وفرص التطوع وتبادل المعرفة.
+          كل مبادرة يرسلها المستخدم تبقى قيد المراجعة حتى يوافق عليها المشرف.
+        </p>
+
+        <div class="row">
+          <a class="btn primary" href="#initiatives">شاهد المبادرات المعتمدة ←</a>
+          <a class="btn secondary" href="#submit">أرسل مبادرة</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="initiatives" class="section">
+    <div class="heading">
+      <h2>المبادرات المعتمدة</h2>
+      <p>لا يظهر هنا إلا المحتوى الذي وافق عليه المشرف.</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter active" data-filter="الكل" onclick="setFilter('الكل')">الكل</button>
+      <button class="filter" data-filter="تعليم" onclick="setFilter('تعليم')">تعليم</button>
+      <button class="filter" data-filter="مساعدة" onclick="setFilter('مساعدة')">مساعدة</button>
+      <button class="filter" data-filter="تطوع" onclick="setFilter('تطوع')">تطوع</button>
+      <button class="filter" data-filter="تقنية" onclick="setFilter('تقنية')">تقنية</button>
+    </div>
+
+    <div id="publicCards" class="grid">
+      <div class="empty">جارٍ تحميل المبادرات...</div>
+    </div>
+  </section>
+
+  <section id="submit" class="section">
+    <div class="heading">
+      <h2>اقترح مبادرة</h2>
+      <p>بعد الإرسال، لن تظهر للناس حتى يراجعها المشرف ويوافق عليها.</p>
+    </div>
+
+    <div class="panel">
+      <div class="notice">
+        لا تضع أرقام هواتف أو عناوين منزلية أو بيانات حساسة في الوصف.
+        يرسل هذا النموذج الاقتراح إلى قاعدة البيانات.
+      </div>
+
+      <form id="submitForm" class="formgrid">
+
+        <div class="field">
+          <label for="title">عنوان المبادرة</label>
+          <input id="title" maxlength="90" required placeholder="مثال: دروس مجانية للطلاب">
+        </div>
+
+        <div class="field">
+          <label for="category">المجال</label>
+          <select id="category">
+            <option>تعليم</option>
+            <option>مساعدة</option>
+            <option>تطوع</option>
+            <option>تقنية</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="city">المدينة (اختياري)</label>
+          <input id="city" maxlength="70" placeholder="مثال: أم درمان">
+        </div>
+
+        <div class="field">
+          <label for="contact">وسيلة تواصل عامة (اختياري)</label>
+          <input id="contact" maxlength="120" placeholder="بريد مخصص للمبادرة، وليس رقمًا شخصيًا">
+        </div>
+
+        <div class="field full">
+          <label for="description">وصف المبادرة</label>
+          <textarea id="description" maxlength="1200" required placeholder="ما الهدف؟ وكيف يمكن للناس المشاركة؟"></textarea>
+        </div>
+
+        <div class="field full">
+          <button class="btn primary" type="submit">إرسال للمراجعة</button>
+          <span id="submitState" class="meta" style="margin-right:10px"></span>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--gold)">أَثَر</b>
+    — منصة مجتمعية تجريبية. أمان البيانات والتحقق من المبادرات مسؤولية أساسية قبل إطلاقها للجمهور.
+  </div>
+</footer>
+
+<div class="modal" id="detailModal" onclick="if(event.target===this)closeDetail()">
+  <div class="modalbox">
+    <div class="modalhead">
+      <h2 id="detailTitle"></h2>
+      <button class="btn outline" onclick="closeDetail()">إغلاق ×</button>
+    </div>
+
+    <p id="detailText"></p>
+    <div class="meta" id="detailMeta"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/*
+  إعدادات Supabase.
+  استخدم مفتاح Publishable أو anon العام فقط.
+  لا تضع service_role أو أي مفتاح سري في كود الموقع.
+*/
+
+const SUPABASE_URL = "https://egnveiuofejuftxoohju.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_kaYM2E6WCd_shsg5ZLLFxw_Nb2pPY4x";
+
+let db = null;
+let currentFilter = "الكل";
+
+const isConfigured = () =>
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("PASTE_") &&
+  SUPABASE_ANON_KEY.length > 20 &&
+  !SUPABASE_ANON_KEY.includes("PASTE_");
+
+if (isConfigured() && window.supabase) {
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+const sample = [
+  {
+    id:"s1",
+    title:"تبادل الكتب الدراسية",
+    category:"تعليم",
+    city:"مثال توضيحي",
+    description:"مبادرة نموذجية لتبادل الكتب المستعملة بين الطلاب.",
+    contact:"",
+    image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    id:"s2",
+    title:"حملة تشجير وتنظيف",
+    category:"تطوع",
+    city:"مثال توضيحي",
+    description:"نشاط مجتمعي تجريبي لتحسين المساحات العامة.",
+    contact:"",
+    image:"https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    id:"s3",
+    title:"ورشة مهارات رقمية",
+    category:"تقنية",
+    city:"مثال توضيحي",
+    description:"ورشة تعليمية للمبتدئين حول المهارات الرقمية.",
+    contact:"",
+    image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+  }
+];
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+}
+
+function toast(s) {
+  const e = document.getElementById("toast");
+  e.textContent = s;
+  e.classList.add("show");
+
+  setTimeout(() => e.classList.remove("show"), 3500);
+}
+
+function setFilter(f) {
+  currentFilter = f;
+
+  document.querySelectorAll(".filter").forEach(b => {
+    b.classList.toggle("active", b.dataset.filter === f);
+  });
+
+  loadPublic();
+}
+
+function cardHTML(x, demo = false) {
+  const img = x.image || (
+    x.category === "تعليم" ? sample[0].image :
+    x.category === "تطوع" ? sample[1].image :
+    sample[2].image
+  );
+
+  return `
+    <article class="card">
+      <img src="${esc(img)}" alt="" loading="lazy">
+
+      <div class="body">
+        <span class="tag">${esc(x.category)}${demo ? " · مثال" : ""}</span>
+
+        <h3>${esc(x.title)}</h3>
+        <p>${esc(x.description)}</p>
+
+        <div class="meta">📍 ${esc(x.city || "")}</div>
+
+        <div class="row">
+          <button class="btn secondary"
+            onclick="showDetail('${String(x.id).replace(/[^a-zA-Z0-9_-]/g,"")}','${demo ? "demo" : "live"}')">
+            التفاصيل
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+async function loadPublic() {
+  const box = document.getElementById("publicCards");
+
+  if (!db) {
+    const arr = sample.filter(x =>
+      currentFilter === "الكل" || x.category === currentFilter
+    );
+
+    box.innerHTML =
+      arr.map(x => cardHTML(x, true)).join("") +
+      `<p class="meta" style="grid-column:1/-1">
+        هذه أمثلة للعرض فقط؛ بعد إعداد قاعدة البيانات ستظهر المبادرات المعتمدة.
+      </p>`;
+
+    return;
+  }
+
+  const {data, error} = await db
+    .from("initiatives")
+    .select("id,title,category,city,description,contact,image_url")
+    .eq("status", "approved")
+    .order("created_at", {ascending:false});
+
+  if (error) {
+    box.innerHTML = `
+      <div class="empty">
+        تعذّر تحميل المبادرات. راجع إعداد قاعدة البيانات.
+      </div>
+    `;
+    return;
+  }
+
+  const arr = (data || []).filter(x =>
+    currentFilter === "الكل" || x.category === currentFilter
+  );
+
+  box.innerHTML = arr.length
+    ? arr.map(x => cardHTML({...x, image:x.image_url}, false)).join("")
+    : `<div class="empty" style="grid-column:1/-1">
+         لا توجد مبادرات معتمدة في هذا التصنيف بعد.
+       </div>`;
+}
+
+function showDetail(id, mode) {
+  let x;
+
+  if (mode === "demo") {
+    x = sample.find(a => a.id === id);
+  } else {
+    x = null;
+  }
+
+  if (!x) {
+    toast("تعذّر فتح التفاصيل الكاملة لهذه المبادرة.");
+    return;
+  }
+
+  document.getElementById("detailTitle").textContent = x.title;
+  document.getElementById("detailText").textContent = x.description;
+
+  document.getElementById("detailMeta").textContent =
+    "المجال: " + x.category + " — " + x.city + " (مثال توضيحي)";
+
+  document.getElementById("detailModal").classList.add("open");
+}
+
+function closeDetail() {
+  document.getElementById("detailModal").classList.remove("open");
+}
+
+/* إرسال المبادرات للمراجعة */
+document.getElementById("submitForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (!db) {
+    toast("تعذّر الاتصال بقاعدة البيانات. تحقق من إعدادات Supabase.");
+    return;
+  }
+
+  const b = e.submitter;
+  b.disabled = true;
+
+  document.getElementById("submitState").textContent = "جارٍ الإرسال...";
+
+  const item = {
+    title:document.getElementById("title").value.trim(),
+    category:document.getElementById("category").value,
+    city:document.getElementById("city").value.trim() || null,
+    contact:document.getElementById("contact").value.trim() || null,
+    description:document.getElementById("description").value.trim(),
+    status:"pending"
+  };
+
+  try {
+    const {error} = await db.from("initiatives").insert(item);
+
+    if (error) {
+      toast("لم ينجح الإرسال: " + error.message);
+      return;
+    }
+
+    e.target.reset();
+
+    toast("وصل اقتراحك للمراجعة. لن يظهر للناس إلا بعد موافقة المشرف.");
+
+  } catch (error) {
+    toast("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+
+  } finally {
+    b.disabled = false;
+    document.getElementById("submitState").textContent = "";
+  }
+});
+
+/* إغلاق قائمة الهاتف عند اختيار أحد الروابط */
+document.querySelectorAll("nav a").forEach(a => {
+  a.addEventListener("click", () => {
+    document.getElementById("nav").classList.remove("open");
+  });
+});
+
+/* تحميل المبادرات المعتمدة فقط */
+loadPublic();
+</script>
+
+</body>
+    </html>
