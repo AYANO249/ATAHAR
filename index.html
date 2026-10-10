@@ -28,7 +28,7 @@ header{position:sticky;top:0;z-index:10;background:#071512ed;backdrop-filter:blu
 <script>
 /* ضع بيانات مشروع Supabase في المكانين أدناه بعد إنشاء المشروع.
    مفتاح anon/publishable مخصص للواجهة، أما service_role فلا تضعه هنا أبدًا. */
-const SUPABASE_URL = "https://egnveiuofejuftxoohju.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://egnveiuofejuftxoohju.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_kaYM2E6WCd_shsg5ZLLFxw_Nb2pPY4x";
 let db = null, currentFilter = "الكل", session = null;
 const isConfigured = () => SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && SUPABASE_ANON_KEY.length > 20 && !SUPABASE_ANON_KEY.includes("PASTE_");
