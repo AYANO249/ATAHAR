@@ -1,701 +1,1344 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071512">
-<title>أَثَر | منصة المجتمع</title><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<title>أثر شات | ATHAR CHAT</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-:root{
-  --bg:#071512;
-  --panel:#0e241d;
-  --panel2:#122d24;
-  --gold:#e6bd58;
-  --green:#78d4a2;
-  --text:#f5f7f3;
-  --muted:#a9bbb2;
-  --line:#254437;
+
+<style>
+:root {
+  --gold:#d7b56d;
+  --light:#f4dfa4;
+  --bg:#090909;
+  --panel:#111;
+  --border:#302719;
+  --muted:#aaa;
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+* { box-sizing:border-box; }
 
-body{
+[hidden] { display:none!important; }
+
+body {
   margin:0;
-  background:radial-gradient(ellipse at 80% 0%,#17392d,transparent 38%),var(--bg);
-  color:var(--text);
-  font-family:Tajawal,Arial,sans-serif;
-  line-height:1.7;
+  min-height:100vh;
+  background:var(--bg);
+  color:#fff;
+  font-family:Tajawal,sans-serif;
 }
 
-a{color:inherit;text-decoration:none}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.wrap{width:min(1100px,92%);margin:auto}
+button,input,textarea { font:inherit; }
+button { cursor:pointer; }
 
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:#071512ed;
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid #ffffff12;
+header {
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid #ffffff15;
+  background:#090909;
 }
 
-.nav{
-  min-height:70px;
+.brand {
+  color:var(--light);
+  font-size:23px;
+  font-weight:800;
+}
+
+.brand small {
+  display:block;
+  font-size:10px;
+  letter-spacing:3px;
+  direction:ltr;
+}
+
+main {
+  width:min(100% - 28px,520px);
+  margin:32px auto;
+}
+
+.intro {
+  text-align:center;
+  margin-bottom:22px;
+}
+
+.logo {
+  width:65px;
+  height:65px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 14px;
+  border:1px solid var(--gold);
+  border-radius:20px;
+  color:var(--light);
+  font-size:32px;
+}
+
+h1,h2,p { overflow-wrap:anywhere; }
+
+h1 { color:var(--light); }
+
+.subtitle,.muted { color:var(--muted); }
+
+.card {
+  padding:21px;
+  margin-bottom:16px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:linear-gradient(145deg,#151515,#0d0d0d);
+}
+
+.tabs {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+button {
+  padding:12px;
+  border-radius:10px;
+}
+
+.primary {
+  background:linear-gradient(110deg,#f0d99b,#b28b43);
+  color:#171209;
+  border:0;
+  font-weight:800;
+}
+
+.secondary {
+  color:var(--light);
+  background:#1b1b1b;
+  border:1px solid #443822;
+}
+
+.danger {
+  color:#ffbaba;
+  background:#351515;
+  border:1px solid #552222;
+}
+
+.tab {
+  color:#aaa;
+  background:#090909;
+  border:1px solid #282828;
+}
+
+.tab.active {
+  background:var(--gold);
+  color:#171209;
+}
+
+label {
+  display:block;
+  margin:15px 0 7px;
+  color:#ddd1b6;
+}
+
+input,textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #34302a;
+  border-radius:10px;
+  background:#090909;
+  color:white;
+  outline:none;
+}
+
+input:focus,textarea:focus {
+  border-color:var(--gold);
+}
+
+.wide { width:100%; margin-top:16px; }
+
+.link {
+  display:block;
+  margin-top:12px;
+  color:var(--gold);
+  text-align:left;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.message {
+  display:none;
+  margin-top:13px;
+  padding:12px;
+  border-radius:9px;
+  line-height:1.8;
+  overflow-wrap:anywhere;
+}
+
+.message.show { display:block; }
+.info { color:var(--light); background:#d7b56d18; }
+.error { color:#ffaaaa; background:#ff454515; }
+.success { color:#8ce7b5; background:#39cf8515; }
+
+/* الصفحة الرئيسية */
+
+#homeView {
+  min-height:calc(100vh - 65px);
+  padding:20px 14px 35px;
+  background-color:#090909;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+.container {
+  position:relative;
+  width:min(100%,680px);
+  margin:auto;
+}
+
+.homeTop {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
-}
-
-.brand{
-  font-size:1.55rem;
-  font-weight:800;
-  color:var(--gold);
-  white-space:nowrap;
-}
-
-nav{display:flex;gap:20px;color:#d0ddd5}
-nav a:hover{color:var(--gold)}
-
-.btn{
-  border:0;
-  border-radius:12px;
-  padding:10px 16px;
-  font-weight:800;
-}
-
-.primary{background:var(--gold);color:#152018}
-.secondary{background:#163b2d;color:#effaf2;border:1px solid #315e46}
-.outline{background:transparent;color:#eaf3ed;border:1px solid #567664}
-.menu{display:none}
-
-.hero{padding:48px 0 28px}
-
-.hero-card{
-  min-height:370px;
-  border-radius:25px;
-  overflow:hidden;
-  border:1px solid #ffffff16;
-  display:flex;
-  align-items:center;
-  background:
-    linear-gradient(90deg,#061610f5 0%,#061610d9 44%,#06161035 100%),
-    url('https://images.pexels.com/photos/36573970/pexels-photo-36573970.jpeg') center/cover;
-}
-
-.hero-copy{padding:clamp(25px,5vw,55px);max-width:680px}
-.eyebrow{color:var(--green);font-weight:800}
-
-.hero h1{
-  font-size:clamp(2.4rem,5vw,4rem);
-  line-height:1.2;
-  margin:10px 0;
-}
-
-.hero h1 span{color:var(--gold)}
-.hero p{color:#d5e0d9;font-size:1.05rem}
-
-.row{
-  display:flex;
-  gap:10px;
   flex-wrap:wrap;
-  align-items:center;
-  margin-top:20px;
+  gap:10px;
+  margin-bottom:18px;
 }
 
-.section{padding:32px 0}
-.heading{margin-bottom:18px}
-.heading h2{font-size:2rem;margin:0}
-.heading p{margin:3px 0;color:var(--muted)}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
+.homeTitle {
+  margin:0;
+  font-size:26px;
 }
 
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
+.nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.nav button { flex:1; min-width:100px; }
+
+.panel {
+  padding:19px;
+  margin-bottom:15px;
+  border:1px solid #d7b56d55;
   border-radius:17px;
-  overflow:hidden;
-  transition:transform .2s,border-color .2s;
+  background:#101010ed;
+  backdrop-filter:blur(10px);
 }
 
-.card:hover{
-  transform:translateY(-3px);
-  border-color:#527a60;
+.panel h2 {
+  margin-top:0;
+  color:var(--light);
 }
 
-.card img{
-  width:100%;
-  height:190px;
-  object-fit:cover;
-  display:block;
-  background:var(--panel2);
-}
-
-.body{padding:16px}
-
-.tag{
-  display:inline-block;
-  border-radius:20px;
-  background:#173c2c;
-  color:#8fe0b1;
-  padding:3px 10px;
-  font-size:.8rem;
-}
-
-.body h3{margin:9px 0 4px}
-.body p{color:var(--muted);margin:0 0 12px}
-.meta{color:#9eb1a6;font-size:.82rem}
-
-.filters{
+.row {
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin-bottom:17px;
 }
 
-.filter{
-  border:1px solid var(--line);
-  background:#0c201a;
-  color:#d9e5de;
-  padding:7px 14px;
-  border-radius:25px;
+.row > button { flex:1; }
+
+.small {
+  color:#aaa;
+  font-size:12px;
+  line-height:1.8;
 }
 
-.filter.active{background:var(--gold);color:#142019}
-
-.panel{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:22px;
+.userTag {
+  color:var(--light);
+  direction:ltr;
+  display:inline-block;
 }
 
-.formgrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-
-.field.full{grid-column:1/-1}
-.field label{display:block;margin-bottom:5px;font-weight:700}
-
-.field input,.field textarea,.field select{
+.chatItem {
   width:100%;
-  padding:11px;
-  border-radius:10px;
-  background:#071812;
-  border:1px solid #345544;
+  text-align:right;
+  margin:7px 0;
+  padding:13px;
   color:white;
-}
-
-.field textarea{min-height:100px;resize:vertical}
-.field select option{background:#071812;color:white}
-
-.notice{
-  padding:11px 13px;
-  background:#172f24;
-  color:#c8d9ce;
+  background:#171717;
+  border:1px solid #342a1a;
   border-radius:10px;
-  font-size:.9rem;
-  margin-bottom:15px;
 }
 
-.empty{
-  padding:25px;
-  text-align:center;
-  color:var(--muted);
-  grid-column:1/-1;
+.chatItem strong {
+  color:var(--light);
 }
 
-footer{
-  border-top:1px solid #ffffff12;
-  padding:25px 0 35px;
-  color:var(--muted);
-  font-size:.9rem;
+.chatItem small {
+  display:block;
+  color:#aaa;
+  margin-top:5px;
 }
 
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:30;
-  background:#000b;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-}
-
-.modal.open{display:flex}
-
-.modalbox{
-  background:var(--panel);
-  border:1px solid #42634e;
-  border-radius:18px;
-  padding:22px;
-  width:min(520px,100%);
-  max-height:90vh;
-  overflow:auto;
-}
-
-.modalhead{
+.chatHeader {
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
 }
 
-.modalhead h2{margin:0}
-
-.toast{
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  z-index:50;
-  background:var(--gold);
-  color:#142019;
-  padding:10px 17px;
+.chatMessages {
+  height:330px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:12px;
+  margin:14px 0;
+  background:#080808;
+  border:1px solid #302719;
   border-radius:12px;
-  font-weight:800;
-  transition:.2s;
-  max-width:90%;
+}
+
+.bubble {
+  max-width:85%;
+  padding:10px 12px;
+  border-radius:12px;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+  white-space:pre-wrap;
+}
+
+.bubble.mine {
+  align-self:flex-start;
+  background:#49391e;
+  border:1px solid #80612d;
+}
+
+.bubble.theirs {
+  align-self:flex-end;
+  background:#202020;
+  border:1px solid #353535;
+}
+
+.bubble time {
+  display:block;
+  margin-top:5px;
+  color:#c6c6c6;
+  font-size:10px;
+}
+
+#messageInput {
+  resize:vertical;
+  min-height:48px;
+}
+
+.preview {
+  width:100%;
+  max-height:220px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-top:12px;
+}
+
+footer {
+  padding:20px;
+  color:#777;
   text-align:center;
+  font-size:12px;
 }
 
-.toast.show{opacity:1;transform:translate(-50%,0)}
-button:disabled{opacity:.6;cursor:not-allowed}
+footer span { color:var(--gold); }
 
-@media(max-width:760px){
-  nav{
-    display:none;
-    position:absolute;
-    top:70px;
-    right:4%;
-    left:4%;
-    padding:15px;
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:14px;
-    flex-direction:column;
-  }
-
-  nav.open{display:flex}
-  .menu{display:inline-block}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-
-  .hero-card{
-    min-height:430px;
-    background-image:
-      linear-gradient(180deg,#06161045,#061610f5 75%),
-      url('https://images.pexels.com/photos/36573970/pexels-photo-36573970.jpeg');
-    background-position:center;
-    background-size:cover;
-    align-items:flex-end;
-  }
-
-  .formgrid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
+@media(max-width:420px) {
+  .panel,.card { padding:15px; }
+  .homeTitle { font-size:22px; }
 }
+</style>
+</head>
 
-@media(max-width:500px){
-  .grid{grid-template-columns:1fr}
-  .card img{height:210px}
-  .hero h1{font-size:2.5rem}
-  .nav{min-height:64px}
-  nav{top:64px}
-  .hero{padding-top:20px}
-}
-</style></head><body><header>
-  <div class="wrap nav">
-    <a class="brand" href="admin.html" aria-label="الدخول إلى لوحة المشرف">✳ أَثَر</a><nav id="nav">
-  <a href="#home">الرئيسية</a>
-  <a href="#initiatives">المبادرات المعتمدة</a>
-  <a href="#submit">اقترح مبادرة</a>
-</nav>
+<body>
 
-<div class="row" style="margin:0">
-  <button class="btn primary" onclick="document.querySelector('#submit').scrollIntoView({behavior:'smooth'})">
-    ＋ اقترح مبادرة
-  </button>
+<header>
+  <div class="brand">
+    أَثَر شات
+    <small>ATHAR CHAT</small>
+  </div>
+  <span class="muted">تواصل يترك أثرًا ✦</span>
+</header>
 
-  <button class="btn outline menu" onclick="document.getElementById('nav').classList.toggle('open')" aria-label="فتح القائمة">
-    ☰
-  </button>
-</div>
+<!-- تسجيل الدخول -->
+
+<main id="authView">
+  <section class="intro">
+    <div class="logo">أ</div>
+    <h1>أهلًا بك في أَثَر</h1>
+    <p class="subtitle">مساحتك للتواصل ومشاركة اللحظات.</p>
+  </section>
+
+  <section class="card">
+    <div class="tabs">
+      <button id="loginTab" class="tab active"
+        onclick="setMode('login')">تسجيل الدخول</button>
+
+      <button id="signupTab" class="tab"
+        onclick="setMode('signup')">إنشاء حساب</button>
+    </div>
+
+    <form id="authForm">
+      <div id="nameGroup" hidden>
+        <label for="displayName">الاسم الظاهر</label>
+        <input id="displayName" maxlength="40"
+          placeholder="اسمك">
+      </div>
+
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" required
+        autocomplete="email" placeholder="name@example.com">
+
+      <label for="password">كلمة المرور</label>
+      <input id="password" type="password" required
+        minlength="8" autocomplete="current-password"
+        placeholder="8 أحرف على الأقل">
+
+      <a class="link" id="forgotPassword"
+        onclick="resetPassword()">نسيت كلمة المرور؟</a>
+
+      <button id="submitButton" class="primary wide">
+        تسجيل الدخول
+      </button>
+
+      <div id="authMessage" class="message"></div>
+    </form>
+  </section>
+</main>
+
+<!-- الصفحة الرئيسية -->
+
+<section id="homeView" hidden>
+  <div class="container">
+
+    <div class="homeTop">
+      <div>
+        <h1 class="homeTitle">أَثَر شات ✦</h1>
+        <div class="small" id="userEmail"></div>
+      </div>
+
+      <button class="secondary" onclick="logout()">
+        تسجيل الخروج
+      </button>
+    </div>
+
+    <div class="nav">
+      <button class="primary" onclick="showSection('profileSection')">
+        ملفي الشخصي
+      </button>
+      <button class="secondary" onclick="showSection('findSection')">
+        بدء دردشة
+      </button>
+      <button class="secondary" onclick="showSection('inboxSection')">
+        محادثاتي
+      </button>
+      <button class="secondary" onclick="showSection('backgroundSection')">
+        الخلفية
+      </button>
+    </div>
+
+    <!-- الملف الشخصي -->
+
+    <section class="panel" id="profileSection">
+      <h2>👤 ملفي الشخصي</h2>
+      <p id="profileStatus">جارٍ تحميل الملف الشخصي...</p>
+
+      <div id="usernameSetup" hidden>
+        <label for="usernameInput">اختر يوزرك الفريد</label>
+        <input id="usernameInput" maxlength="20"
+          placeholder="مثال: ayano249"
+          autocomplete="off" dir="ltr">
+
+        <p class="small">
+          استخدم الأحرف الإنجليزية الصغيرة والأرقام والشرطة السفلية.
+          من 3 إلى 20 رمزًا. اليوزر لا يتكرر ولا يمكن تغييره.
+        </p>
+
+        <button class="primary wide" onclick="createUsername()">
+          حفظ اليوزر
+        </button>
+      </div>
+
+      <div id="myUsernameArea" hidden>
+        <p>اليوزر الخاص بك:</p>
+        <h2 class="userTag" id="myUsername"></h2>
+        <p class="small">شارك اليوزر مع الآخرين حتى يستطيعوا العثور عليك.</p>
+      </div>
+
+      <div id="profileMessage" class="message"></div>
+    </section>
+
+    <!-- البحث عن مستخدم -->
+
+    <section class="panel" id="findSection" hidden>
+      <h2>🔎 بدء دردشة</h2>
+      <p class="small">
+        اكتب اليوزر الكامل للشخص الذي تريد مراسلته.
+      </p>
+
+      <label for="searchUsername">يوزر المستخدم</label>
+      <input id="searchUsername" maxlength="20"
+        placeholder="username" dir="ltr">
+
+      <button class="primary wide" onclick="findUser()">
+        البحث عن المستخدم
+      </button>
+
+      <div id="searchMessage" class="message"></div>
+      <div id="searchResult"></div>
+    </section>
+
+    <!-- قائمة المحادثات -->
+
+    <section class="panel" id="inboxSection" hidden>
+      <h2>💬 محادثاتي</h2>
+      <p class="small">المحادثات التي أرسلت أو استقبلت فيها رسائل.</p>
+
+      <button class="secondary wide" onclick="loadConversations()">
+        تحديث المحادثات
+      </button>
+
+      <div id="conversationList" style="margin-top:12px"></div>
+      <div id="inboxMessage" class="message"></div>
+    </section>
+
+    <!-- نافذة المحادثة -->
+
+    <section class="panel" id="chatSection" hidden>
+      <div class="chatHeader">
+        <div>
+          <h2 id="chatTitle">المحادثة</h2>
+          <span class="small" id="chatUsername"></span>
+        </div>
+
+        <button class="secondary" onclick="closeChat()">
+          رجوع
+        </button>
+      </div>
+
+      <div id="chatMessages" class="chatMessages"></div>
+
+      <form id="sendForm">
+        <label for="messageInput">اكتب رسالتك</label>
+        <textarea id="messageInput" maxlength="2000"
+          required placeholder="اكتب رسالتك هنا..."></textarea>
+
+        <button id="sendButton" class="primary wide">
+          إرسال الرسالة
+        </button>
+      </form>
+
+      <div id="chatMessage" class="message"></div>
+      <p class="small">تُحدّث المحادثة تلقائيًا كل بضع ثوانٍ.</p>
+    </section>
+
+    <!-- تغيير الخلفية -->
+
+    <section class="panel" id="backgroundSection" hidden>
+      <h2>🖼️ خلفية الصفحة الرئيسية</h2>
+
+      <label for="backgroundFile" class="secondary"
+        style="display:block;text-align:center;padding:13px">
+        اختيار صورة من المعرض
+      </label>
+
+      <input id="backgroundFile" type="file"
+        accept="image/*" hidden>
+
+      <img id="backgroundPreview" class="preview" hidden alt="معاينة الخلفية">
+
+      <div class="row" id="backgroundActions" hidden>
+        <button class="primary" onclick="applyBackground()">
+          تطبيق الخلفية
+        </button>
+        <button class="secondary" onclick="cancelPreview()">
+          إلغاء
+        </button>
+      </div>
+
+      <button class="secondary wide" onclick="resetBackground()">
+        استعادة الخلفية الأصلية
+      </button>
+
+      <div id="backgroundMessage" class="message"></div>
+      <p class="small">تُحفظ الصورة على هذا الجهاز والمتصفح فقط.</p>
+    </section>
 
   </div>
-</header><main id="home" class="wrap">  <section class="hero">
-    <div class="hero-card">
-      <div class="hero-copy">
-        <div class="eyebrow">مجتمع أقوى يبدأ بخطوة</div>    <h1>خلّي لوجودك <span>أَثَر</span></h1>
+</section>
 
-    <p>
-      منصة تجمع المبادرات النافعة وفرص التطوع وتبادل المعرفة.
-      كل مبادرة يرسلها المستخدم تبقى قيد المراجعة حتى يوافق عليها المشرف.
-    </p>
+<footer>© 2026 <span>ATHAR CHAT</span></footer>
 
-    <div class="row">
-      <a class="btn primary" href="#initiatives">شاهد المبادرات المعتمدة ←</a>
-      <a class="btn secondary" href="#submit">أرسل مبادرة</a>
-    </div>
-  </div>
-</div>
+<script>
+"use strict";
 
-  </section>  <section id="initiatives" class="section">
-    <div class="heading">
-      <h2>المبادرات المعتمدة</h2>
-      <p>لا يظهر هنا إلا المحتوى الذي وافق عليه المشرف.</p>
-    </div><div class="filters">
-  <button class="filter active" data-filter="الكل" onclick="setFilter('الكل')">الكل</button>
-  <button class="filter" data-filter="تعليم" onclick="setFilter('تعليم')">تعليم</button>
-  <button class="filter" data-filter="مساعدة" onclick="setFilter('مساعدة')">مساعدة</button>
-  <button class="filter" data-filter="تطوع" onclick="setFilter('تطوع')">تطوع</button>
-  <button class="filter" data-filter="تقنية" onclick="setFilter('تقنية')">تقنية</button>
-</div>
+/* إعداد Supabase */
 
-<div id="publicCards" class="grid">
-  <div class="empty">جارٍ تحميل المبادرات...</div>
-</div>
+const SUPABASE_URL =
+  "https://krblbawgcpthbiixauyu.supabase.co";
 
-  </section>  <section id="submit" class="section">
-    <div class="heading">
-      <h2>اقترح مبادرة</h2>
-      <p>بعد الإرسال، لن تظهر للناس حتى يراجعها المشرف ويوافق عليها.</p>
-    </div><div class="panel">
-  <div class="notice">
-    لا تضع أرقام هواتف أو عناوين منزلية أو بيانات حساسة في الوصف.
-    يرسل هذا النموذج الاقتراح إلى قاعدة البيانات.
-  </div>
-
-  <form id="submitForm" class="formgrid">
-    <div class="field">
-      <label for="title">عنوان المبادرة</label>
-      <input id="title" maxlength="90" required placeholder="مثال: دروس مجانية للطلاب">
-    </div>
-
-    <div class="field">
-      <label for="category">المجال</label>
-      <select id="category" required>
-        <option>تعليم</option>
-        <option>مساعدة</option>
-        <option>تطوع</option>
-        <option>تقنية</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="city">المدينة (اختياري)</label>
-      <input id="city" maxlength="70" placeholder="مثال: أم درمان">
-    </div>
-
-    <div class="field">
-      <label for="contact">وسيلة تواصل عامة (اختياري)</label>
-      <input id="contact" maxlength="120" placeholder="بريد مخصص للمبادرة">
-    </div>
-
-    <div class="field full">
-      <label for="description">وصف المبادرة</label>
-      <textarea id="description" maxlength="1200" required placeholder="ما الهدف؟ وكيف يمكن للناس المشاركة؟"></textarea>
-    </div>
-
-    <div class="field full">
-      <button class="btn primary" type="submit">إرسال للمراجعة</button>
-      <span id="submitState" class="meta" style="margin-right:10px"></span>
-    </div>
-  </form>
-</div>
-
-  </section></main><footer>
-  <div class="wrap">
-    <b style="color:var(--gold)">أَثَر</b>
-    — منصة مجتمعية تهدف إلى دعم المبادرات النافعة ونشر أثر إيجابي في المجتمع.
-  </div>
-</footer><div class="modal" id="detailModal" onclick="if(event.target===this)closeDetail()">
-  <div class="modalbox">
-    <div class="modalhead">
-      <h2 id="detailTitle"></h2>
-      <button class="btn outline" onclick="closeDetail()">إغلاق ×</button>
-    </div>
-    <p id="detailText"></p>
-    <div class="meta" id="detailMeta"></div>
-  </div>
-</div><div id="toast" class="toast" role="status"></div><script>
-const SUPABASE_URL = "https://egnveiuofejuftxoohju.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_kaYM2E6WCd_shsg5ZLLFxw_Nb2pPY4x";
+const SUPABASE_KEY =
+  "sb_publishable_MgcstiMSIONj8Tc4AJl1SA_q7QnzlUX";
 
 let db = null;
-let currentFilter = "الكل";
+let mode = "login";
+let currentUser = null;
+let myProfile = null;
+let activeChat = null;
+let refreshTimer = null;
+let previewData = null;
 
-const isConfigured = () =>
-  SUPABASE_URL.startsWith("https://") &&
-  !SUPABASE_ANON_KEY.includes("PASTE_") &&
-  SUPABASE_ANON_KEY.length > 20;
+const $ = id => document.getElementById(id);
 
-if (isConfigured() && window.supabase) {
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
+function message(id, text, type = "info") {
+  const el = $(id);
+  el.textContent = text;
+  el.className = "message show " + type;
+}
+
+function clearMessage(id) {
+  $(id).textContent = "";
+  $(id).className = "message";
+}
+
+async function getDB() {
+  if (db) return db;
+
+  const sdk = await import(
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
   );
+
+  db = sdk.createClient(SUPABASE_URL, SUPABASE_KEY);
+  return db;
 }
 
-const images = {
-  library:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=85",
-  tree:"https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=85",
-  neighborhood:"https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=900&q=85",
-  computer:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=85",
-  seedling:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85"
-};
+/* تبويبات الدخول */
 
-const sample = [
-  {
-    id:"s1",
-    title:"مكتبة المجتمع",
-    category:"تعليم",
-    city:"مثال توضيحي",
-    description:"مبادرة لتشجيع القراءة وتبادل الكتب ونشر المعرفة بين أفراد المجتمع.",
-    image:images.library
-  },
-  {
-    id:"s2",
-    title:"حيّنا أجمل",
-    category:"تطوع",
-    city:"مثال توضيحي",
-    description:"مبادرة مجتمعية لتنظيف الأحياء والعناية بالمساحات العامة.",
-    image:images.neighborhood
-  },
-  {
-    id:"s3",
-    title:"ازرع أثرًا",
-    category:"تطوع",
-    city:"مثال توضيحي",
-    description:"مبادرة للتشجير والمحافظة على البيئة وزيادة المساحات الخضراء.",
-    image:images.seedling
-  },
-  {
-    id:"s4",
-    title:"التقنية للجميع",
-    category:"تقنية",
-    city:"مثال توضيحي",
-    description:"مبادرة لتعليم استخدام الحاسوب والمهارات الرقمية للمبتدئين.",
-    image:images.computer
-  },
-  {
-    id:"s5",
-    title:"شجرة لكل مساحة",
-    category:"مساعدة",
-    city:"مثال توضيحي",
-    description:"مبادرة لتشجيع زراعة الأشجار والعناية بها وتحسين البيئة.",
-    image:images.tree
-  }
-];
+function setMode(value) {
+  mode = value;
 
-function esc(s) {
-  return String(s ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c]));
+  $("loginTab").classList.toggle("active", value === "login");
+  $("signupTab").classList.toggle("active", value === "signup");
+
+  $("nameGroup").hidden = value !== "signup";
+  $("displayName").required = value === "signup";
+
+  $("password").autocomplete =
+    value === "signup" ? "new-password" : "current-password";
+
+  $("submitButton").textContent =
+    value === "signup" ? "إنشاء حساب" : "تسجيل الدخول";
+
+  $("forgotPassword").hidden = value === "signup";
+
+  clearMessage("authMessage");
 }
 
-function toast(message) {
-  const element = document.getElementById("toast");
-  element.textContent = message;
-  element.classList.add("show");
-  setTimeout(() => element.classList.remove("show"), 3500);
-}
+/* الدخول وإنشاء الحساب */
 
-function setFilter(filter) {
-  currentFilter = filter;
-
-  document.querySelectorAll(".filter").forEach(button => {
-    button.classList.toggle("active", button.dataset.filter === filter);
-  });
-
-  loadPublic();
-}
-
-function fallbackImage(category) {
-  if (category === "تعليم") return images.library;
-  if (category === "تطوع") return images.tree;
-  if (category === "تقنية") return images.computer;
-  if (category === "مساعدة") return images.neighborhood;
-  return images.seedling;
-}
-
-function cardHTML(item, demo = false) {
-  const img = item.image || item.image_url || fallbackImage(item.category);
-  const safeId = String(item.id).replace(/[^a-zA-Z0-9_-]/g, "");
-
-  return `
-    <article class="card">
-      <img
-        src="${esc(img)}"
-        alt="${esc(item.title)}"
-        loading="lazy"
-        onerror="this.onerror=null;this.src='${images.seedling}'"
-      >
-
-      <div class="body">
-        <span class="tag">${esc(item.category)}${demo ? " · مثال" : ""}</span>
-        <h3>${esc(item.title)}</h3>
-        <p>${esc(item.description)}</p>
-
-        <div class="meta">
-          ${item.city ? "📍 " + esc(item.city) : ""}
-        </div>
-
-        <div class="row">
-          <button class="btn secondary" onclick="showDetail('${safeId}','${demo ? "demo" : "live"}')">
-            التفاصيل
-          </button>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-async function loadPublic() {
-  const box = document.getElementById("publicCards");
-  box.innerHTML = '<div class="empty">جارٍ تحميل المبادرات...</div>';
-
-  if (!db) {
-    const arr = sample.filter(item =>
-      currentFilter === "الكل" || item.category === currentFilter
-    );
-
-    box.innerHTML = arr.length
-      ? arr.map(item => cardHTML(item, true)).join("") +
-        `<p class="meta" style="grid-column:1/-1">هذه بطاقات تجريبية للعرض فقط، وليست مبادرات فعلية.</p>`
-      : '<div class="empty">لا توجد أمثلة في هذا التصنيف.</div>';
-
-    return;
-  }
-
-  try {
-    const {data, error} = await db
-      .from("initiatives")
-      .select("id,title,category,city,description,contact,image_url")
-      .eq("status", "approved")
-      .order("created_at", {ascending:false});
-
-    if (error) {
-      console.error("Supabase:", error);
-      box.innerHTML = '<div class="empty">تعذّر تحميل المبادرات. تحقق من اتصال قاعدة البيانات وسياساتها.</div>';
-      return;
-    }
-
-    const arr = (data || []).filter(item =>
-      currentFilter === "الكل" || item.category === currentFilter
-    );
-
-    box.innerHTML = arr.length
-      ? arr.map(item => cardHTML(item, false)).join("")
-      : '<div class="empty">لا توجد مبادرات معتمدة في هذا التصنيف بعد.</div>';
-
-  } catch (error) {
-    console.error(error);
-    box.innerHTML = '<div class="empty">حدث خطأ أثناء الاتصال. تحقق من الإنترنت وحاول مجددًا.</div>';
-  }
-}
-
-async function showDetail(id, mode) {
-  let item;
-
-  if (mode === "demo") {
-    item = sample.find(entry => entry.id === id);
-  } else if (db) {
-    const {data, error} = await db
-      .from("initiatives")
-      .select("id,title,category,city,description")
-      .eq("id", id)
-      .eq("status", "approved")
-      .maybeSingle();
-
-    if (!error) item = data;
-  }
-
-  if (!item) {
-    toast("تعذّر فتح تفاصيل المبادرة.");
-    return;
-  }
-
-  document.getElementById("detailTitle").textContent = item.title;
-  document.getElementById("detailText").textContent = item.description;
-  document.getElementById("detailMeta").textContent =
-    "المجال: " + item.category + (item.city ? " — " + item.city : "");
-
-  document.getElementById("detailModal").classList.add("open");
-}
-
-function closeDetail() {
-  document.getElementById("detailModal").classList.remove("open");
-}
-
-document.getElementById("submitForm").addEventListener("submit", async event => {
+$("authForm").addEventListener("submit", async event => {
   event.preventDefault();
 
-  if (!db) {
-    toast("اتصال قاعدة البيانات غير مُعدّ. راجع إعدادات Supabase.");
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  const name = $("displayName").value.trim();
+
+  if (password.length < 8) {
+    message("authMessage", "كلمة المرور يجب أن تكون 8 أحرف على الأقل.", "error");
     return;
   }
 
-  const button = event.submitter;
-  button.disabled = true;
-  document.getElementById("submitState").textContent = "جارٍ الإرسال...";
+  if (mode === "signup" && !name) {
+    message("authMessage", "اكتب اسمك أولًا.", "error");
+    return;
+  }
 
-  const item = {
-    title:document.getElementById("title").value.trim(),
-    category:document.getElementById("category").value,
-    city:document.getElementById("city").value.trim() || null,
-    contact:document.getElementById("contact").value.trim() || null,
-    description:document.getElementById("description").value.trim(),
-    status:"pending"
-  };
+  $("submitButton").disabled = true;
 
   try {
-    const {error} = await db.from("initiatives").insert(item);
+    const client = await getDB();
+    let result;
 
-    if (error) {
-      console.error(error);
-      toast("لم ينجح الإرسال. تحقق من إعدادات قاعدة البيانات.");
-      return;
+    if (mode === "signup") {
+      result = await client.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { display_name: name },
+          emailRedirectTo: location.origin + location.pathname
+        }
+      });
+
+      if (result.error) throw result.error;
+
+      if (!result.data.session) {
+        message(
+          "authMessage",
+          "تم إنشاء طلب الحساب. افتح بريدك الإلكتروني وأكد حسابك ثم سجّل الدخول.",
+          "success"
+        );
+      } else {
+        await enterHome(result.data.user);
+      }
+
+    } else {
+      result = await client.auth.signInWithPassword({
+        email, password
+      });
+
+      if (result.error) throw result.error;
+      await enterHome(result.data.user);
     }
 
-    event.target.reset();
-    toast("وصل اقتراحك للمراجعة. لن يظهر إلا بعد موافقة المشرف.");
-
   } catch (error) {
-    console.error(error);
-    toast("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
-
+    message("authMessage", error.message || "تعذر إكمال العملية.", "error");
   } finally {
-    button.disabled = false;
-    document.getElementById("submitState").textContent = "";
+    $("submitButton").disabled = false;
   }
 });
 
-document.querySelectorAll("nav a").forEach(link => {
-  link.addEventListener("click", () => {
-    document.getElementById("nav").classList.remove("open");
+async function resetPassword() {
+  const email = $("email").value.trim();
+
+  if (!email) {
+    message("authMessage", "أدخل بريدك الإلكتروني أولًا.", "info");
+    return;
+  }
+
+  try {
+    const client = await getDB();
+
+    const result = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: location.origin + location.pathname
+    });
+
+    if (result.error) throw result.error;
+
+    message(
+      "authMessage",
+      "إذا كان البريد مسجلًا، فستصلك رسالة لاستعادة كلمة المرور.",
+      "success"
+    );
+  } catch (error) {
+    message("authMessage", error.message, "error");
+  }
+}
+
+/* التنقل بين أقسام الصفحة الرئيسية */
+
+function showSection(id) {
+  [
+    "profileSection",
+    "findSection",
+    "inboxSection",
+    "chatSection",
+    "backgroundSection"
+  ].forEach(section => {
+    $(section).hidden = section !== id;
   });
+
+  if (id === "inboxSection") loadConversations();
+
+  window.scrollTo(0, 0);
+}
+
+/* فتح الصفحة الرئيسية */
+
+async function enterHome(user) {
+  currentUser = user;
+
+  $("authView").hidden = true;
+  $("homeView").hidden = false;
+  $("userEmail").textContent = user.email || "";
+
+  showSection("profileSection");
+
+  await loadProfile();
+  await loadSavedBackground();
+}
+
+/* إنشاء يوزر واحد لكل حساب */
+
+async function loadProfile() {
+  if (!currentUser) return;
+
+  $("profileStatus").textContent = "جارٍ تحميل الملف الشخصي...";
+  $("usernameSetup").hidden = true;
+  $("myUsernameArea").hidden = true;
+
+  try {
+    const client = await getDB();
+
+    const { data, error } = await client
+      .from("profiles")
+      .select("user_id, username")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (data) {
+      myProfile = data;
+
+      $("profileStatus").textContent = "تم إعداد ملفك الشخصي.";
+      $("myUsername").textContent = "@" + data.username;
+      $("myUsernameArea").hidden = false;
+
+    } else {
+      myProfile = null;
+      $("profileStatus").textContent = "اختر يوزرك قبل بدء الدردشة.";
+      $("usernameSetup").hidden = false;
+    }
+
+  } catch (error) {
+    $("profileStatus").textContent = "تعذر تحميل الملف الشخصي.";
+    message("profileMessage", error.message, "error");
+  }
+}
+
+async function createUsername() {
+  const username = $("usernameInput").value.trim().toLowerCase();
+
+  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+    message(
+      "profileMessage",
+      "اليوزر يجب أن يحتوي على 3–20 رمزًا من الأحرف الإنجليزية الصغيرة أو الأرقام أو _",
+      "error"
+    );
+    return;
+  }
+
+  try {
+    const client = await getDB();
+
+    const { data, error } = await client
+      .from("profiles")
+      .insert({
+        user_id: currentUser.id,
+        username
+      })
+      .select("user_id, username")
+      .single();
+
+    if (error) {
+      if (error.code === "23505") {
+        throw new Error("هذا اليوزر مستخدم بالفعل. اختر يوزرًا آخر.");
+      }
+      throw error;
+    }
+
+    myProfile = data;
+
+    $("usernameSetup").hidden = true;
+    $("myUsername").textContent = "@" + data.username;
+    $("myUsernameArea").hidden = false;
+    $("profileStatus").textContent = "تم إنشاء يوزرك بنجاح.";
+
+    message("profileMessage", "أصبح لديك يوزر خاص وفريد!", "success");
+
+  } catch (error) {
+    message("profileMessage", error.message, "error");
+  }
+}
+
+/* البحث عن مستخدم باليوزر */
+
+async function findUser() {
+  const username = $("searchUsername").value.trim().toLowerCase();
+
+  $("searchResult").replaceChildren();
+
+  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+    message("searchMessage", "اكتب يوزرًا صحيحًا.", "error");
+    return;
+  }
+
+  if (!myProfile) {
+    message("searchMessage", "أنشئ يوزرك أولًا من ملفي الشخصي.", "error");
+    return;
+  }
+
+  if (username === myProfile.username) {
+    message("searchMessage", "هذا يوزرك أنت! اكتب يوزر شخص آخر.", "info");
+    return;
+  }
+
+  try {
+    const client = await getDB();
+
+    const { data, error } = await client
+      .from("profiles")
+      .select("user_id, username")
+      .eq("username", username)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!data) {
+      message("searchMessage", "لم نجد مستخدمًا بهذا اليوزر.", "error");
+      return;
+    }
+
+    message("searchMessage", "تم العثور على المستخدم.", "success");
+
+    const card = document.createElement("div");
+    card.className = "chatItem";
+
+    const title = document.createElement("strong");
+    title.textContent = "@" + data.username;
+
+    const btn = document.createElement("button");
+    btn.className = "primary wide";
+    btn.textContent = "فتح المحادثة";
+    btn.onclick = () => openChat(data);
+
+    card.append(title, btn);
+    $("searchResult").append(card);
+
+  } catch (error) {
+    message("searchMessage", error.message, "error");
+  }
+}
+
+/* فتح محادثة */
+
+async function openChat(profile) {
+  if (!myProfile) {
+    message("searchMessage", "أنشئ يوزرك أولًا.", "error");
+    return;
+  }
+
+  if (profile.user_id === currentUser.id) return;
+
+  activeChat = profile;
+
+  $("chatTitle").textContent = "محادثة خاصة";
+  $("chatUsername").textContent = "@" + profile.username;
+
+  showSection("chatSection");
+
+  await loadMessages();
+
+  if (refreshTimer) clearInterval(refreshTimer);
+
+  refreshTimer = setInterval(() => {
+    if (activeChat) loadMessages(true);
+  }, 3000);
+}
+
+function closeChat() {
+  activeChat = null;
+
+  if (refreshTimer) {
+    clearInterval(refreshTimer);
+    refreshTimer = null;
+  }
+
+  showSection("inboxSection");
+}
+
+/* قراءة الرسائل */
+
+async function loadMessages(silent = false) {
+  if (!activeChat || !currentUser) return;
+
+  try {
+    const client = await getDB();
+
+    const { data, error } = await client
+      .from("messages")
+      .select("id, sender_id, recipient_id, body, created_at")
+      .or(
+        "and(sender_id.eq." + currentUser.id +
+        ",recipient_id.eq." + activeChat.user_id +
+        "),and(sender_id.eq." + activeChat.user_id +
+        ",recipient_id.eq." + currentUser.id + ")"
+      )
+      .order("created_at", { ascending: true })
+      .limit(200);
+
+    if (error) throw error;
+
+    const box = $("chatMessages");
+    const previousCount = box.dataset.count || "";
+
+    if (previousCount === String(data.length) && silent) return;
+
+    box.replaceChildren();
+
+    data.forEach(item => {
+      const bubble = document.createElement("div");
+
+      bubble.className = "bubble " +
+        (item.sender_id === currentUser.id ? "mine" : "theirs");
+
+      const body = document.createElement("div");
+      body.textContent = item.body;
+
+      const time = document.createElement("time");
+      time.textContent = new Date(item.created_at).toLocaleString("ar");
+
+      bubble.append(body, time);
+      box.append(bubble);
+    });
+
+    box.dataset.count = String(data.length);
+    box.scrollTop = box.scrollHeight;
+
+    clearMessage("chatMessage");
+
+  } catch (error) {
+    if (!silent) {
+      message("chatMessage", "تعذر تحميل الرسائل: " + error.message, "error");
+    }
+  }
+}
+
+/* إرسال الرسائل */
+
+$("sendForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!activeChat || !myProfile) return;
+
+  const body = $("messageInput").value.trim();
+
+  if (!body) return;
+
+  $("sendButton").disabled = true;
+
+  try {
+    const client = await getDB();
+
+    const { error } = await client.from("messages").insert({
+      sender_id: currentUser.id,
+      recipient_id: activeChat.user_id,
+      body
+    });
+
+    if (error) throw error;
+
+    $("messageInput").value = "";
+    await loadMessages();
+
+  } catch (error) {
+    message("chatMessage", "تعذر إرسال الرسالة: " + error.message, "error");
+  } finally {
+    $("sendButton").disabled = false;
+  }
 });
 
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeDetail();
+/* قائمة المحادثات */
+
+async function loadConversations() {
+  if (!currentUser) return;
+
+  const list = $("conversationList");
+  list.replaceChildren();
+
+  try {
+    const client = await getDB();
+
+    const { data, error } = await client
+      .from("messages")
+      .select("sender_id, recipient_id, body, created_at")
+      .or(
+        "sender_id.eq." + currentUser.id +
+        ",recipient_id.eq." + currentUser.id
+      )
+      .order("created_at", { ascending: false })
+      .limit(300);
+
+    if (error) throw error;
+
+    const uniqueIds = [];
+
+    data.forEach(item => {
+      const otherId = item.sender_id === currentUser.id
+        ? item.recipient_id
+        : item.sender_id;
+
+      if (!uniqueIds.includes(otherId)) uniqueIds.push(otherId);
+    });
+
+    if (!uniqueIds.length) {
+      message("inboxMessage", "لا توجد محادثات بعد. ابحث عن يوزر لبدء دردشة.", "info");
+      return;
+    }
+
+    clearMessage("inboxMessage");
+
+    const { data: profiles, error: profileError } = await client
+      .from("profiles")
+      .select("user_id, username")
+      .in("user_id", uniqueIds);
+
+    if (profileError) throw profileError;
+
+    const profileMap = new Map(
+      profiles.map(profile => [profile.user_id, profile])
+    );
+
+    uniqueIds.forEach(id => {
+      const profile = profileMap.get(id);
+      if (!profile) return;
+
+      const latest = data.find(item =>
+        item.sender_id === id || item.recipient_id === id
+      );
+
+      const button = document.createElement("button");
+      button.className = "chatItem";
+
+      const title = document.createElement("strong");
+      title.textContent = "@" + profile.username;
+
+      const preview = document.createElement("small");
+      preview.textContent = latest ? latest.body : "افتح المحادثة";
+
+      button.append(title, preview);
+      button.onclick = () => openChat(profile);
+
+      list.append(button);
+    });
+
+  } catch (error) {
+    message("inboxMessage", "تعذر تحميل المحادثات: " + error.message, "error");
+  }
+}
+
+/* التخزين المحلي للخلفية */
+
+function openImageDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("ATHAR_CHAT_SETTINGS", 1);
+
+    request.onupgradeneeded = () => {
+      const database = request.result;
+
+      if (!database.objectStoreNames.contains("settings")) {
+        database.createObjectStore("settings");
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveImage(data) {
+  const database = await openImageDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction("settings", "readwrite");
+
+    tx.objectStore("settings").put(data, "homeBackground");
+
+    tx.oncomplete = () => {
+      database.close();
+      resolve();
+    };
+
+    tx.onerror = () => {
+      database.close();
+      reject(tx.error);
+    };
+  });
+}
+
+async function readImage() {
+  const database = await openImageDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction("settings", "readonly");
+    const request = tx.objectStore("settings").get("homeBackground");
+
+    request.onsuccess = () => {
+      const data = request.result || null;
+      database.close();
+      resolve(data);
+    };
+
+    request.onerror = () => {
+      database.close();
+      reject(request.error);
+    };
+  });
+}
+
+async function loadSavedBackground() {
+  try {
+    const data = await readImage();
+
+    $("homeView").style.backgroundImage = data
+      ? 'linear-gradient(#09090935,#09090955),url("' + data + '")'
+      : "none";
+  } catch (error) {
+    console.warn(error);
+  }
+}
+
+$("backgroundFile").addEventListener("change", event => {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    message("backgroundMessage", "اختر صورة صالحة.", "error");
+    return;
+  }
+
+  if (file.size > 15 * 1024 * 1024) {
+    message("backgroundMessage", "حجم الصورة أكبر من 15 ميجابايت.", "error");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const img = new Image();
+
+    img.onload = () => {
+      const scale = Math.min(1, 1600 / img.width, 1600 / img.height);
+      const canvas = document.createElement("canvas");
+
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+
+      canvas.getContext("2d").drawImage(
+        img, 0, 0, canvas.width, canvas.height
+      );
+
+      previewData = canvas.toDataURL("image/jpeg", 0.82);
+
+      $("backgroundPreview").src = previewData;
+      $("backgroundPreview").hidden = false;
+      $("backgroundActions").hidden = false;
+
+      message("backgroundMessage", "عاين الصورة ثم اضغط تطبيق الخلفية.", "info");
+    };
+
+    img.onerror = () => {
+      message("backgroundMessage", "تعذر فتح الصورة.", "error");
+    };
+
+    img.src = reader.result;
+  };
+
+  reader.readAsDataURL(file);
 });
 
-loadPublic();
-</script></body>
+async function applyBackground() {
+  if (!previewData) return;
+
+  try {
+    await saveImage(previewData);
+
+    $("homeView").style.backgroundImage =
+      'linear-gradient(#09090935,#09090955),url("' +
+      previewData + '")';
+
+    cancelPreview();
+
+    message("backgroundMessage", "تم حفظ الخلفية.", "success");
+  } catch (error) {
+    message("backgroundMessage", "تعذر حفظ الصورة. جرّب صورة أصغر.", "error");
+  }
+}
+
+function cancelPreview() {
+  previewData = null;
+  $("backgroundFile").value = "";
+  $("backgroundPreview").hidden = true;
+  $("backgroundPreview").removeAttribute("src");
+  $("backgroundActions").hidden = true;
+}
+
+async function resetBackground() {
+  try {
+    const database = await openImageDB();
+
+    await new Promise((resolve, reject) => {
+      const tx = database.transaction("settings", "readwrite");
+
+      tx.objectStore("settings").delete("homeBackground");
+
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+
+    database.close();
+
+    $("homeView").style.backgroundImage = "none";
+    cancelPreview();
+
+    message("backgroundMessage", "تمت استعادة الخلفية الأصلية.", "success");
+  } catch (error) {
+    message("backgroundMessage", "تعذر استعادة الخلفية.", "error");
+  }
+}
+
+/* تسجيل الخروج */
+
+async function logout() {
+  try {
+    const client = await getDB();
+    const { error } = await client.auth.signOut();
+
+    if (error) throw error;
+
+    currentUser = null;
+    myProfile = null;
+    activeChat = null;
+
+    if (refreshTimer) clearInterval(refreshTimer);
+
+    $("homeView").hidden = true;
+    $("authView").hidden = false;
+
+    setMode("login");
+    message("authMessage", "تم تسجيل الخروج.", "success");
+
+  } catch (error) {
+    alert("تعذر تسجيل الخروج. تحقق من الإنترنت وحاول مجددًا.");
+  }
+}
+
+/* تشغيل الموقع واستعادة الجلسة */
+
+async function initialize() {
+  setMode("login");
+
+  try {
+    const client = await getDB();
+    const { data, error } = await client.auth.getSession();
+
+    if (error) throw error;
+
+    if (data.session && data.session.user) {
+      await enterHome(data.session.user);
+    }
+
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        currentUser = null;
+        myProfile = null;
+        $("homeView").hidden = true;
+        $("authView").hidden = false;
+      }
+    });
+
+  } catch (error) {
+    message(
+      "authMessage",
+      "تعذر الاتصال بالخادم. تحقق من الإنترنت وإعدادات Supabase.",
+      "error"
+    );
+  }
+}
+
+initialize();
+</script>
+</body>
   </html>
